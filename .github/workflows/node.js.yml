@@ -12,19 +12,19 @@ jobs:
     name: Lint → Type Check → Build → Test
     defaults:
       run:
-        working-directory: ./
+        working-directory: . # Force root
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Needed for some lint rules / git info
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
