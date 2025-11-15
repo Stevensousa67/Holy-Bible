@@ -10,6 +10,9 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     name: Lint → Type Check → Build → Test
+    defaults:
+      run:
+        working-directory: ./
 
     steps:
       - name: Checkout code
