@@ -1,9 +1,13 @@
 import { createAuthClient } from "better-auth/react"; // make sure to import from better-auth/react
 import { APIError } from "better-auth/api";
+import type { auth } from "./auth";
 
 export const authClient = createAuthClient({
   baseURL: "http://localhost:3000",
 });
+
+// Export the properly typed session type from the auth instance
+export type Session = typeof auth.$Infer.Session;
 
 export const loginWithSocial = async (provider: string) => {
   try {

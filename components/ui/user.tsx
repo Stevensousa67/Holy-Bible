@@ -3,13 +3,14 @@ import Link from "next/link"
 import { UserRound } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { authClient } from "@/lib/auth/auth-client"
+import { authClient, type Session } from "@/lib/auth/auth-client"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
 export function ProfileToggle() {
   const router = useRouter()
   const { data: session, isPending } = authClient.useSession()
+  const typedSession = session as Session | null
 
   const handleSignOut = async () => {
     try {
@@ -41,12 +42,12 @@ export function ProfileToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center">
-        {session ? (
+        {typedSession ? (
           <>
             <DropdownMenuItem asChild>
               <Link href="/account">Account Settings</Link>
             </DropdownMenuItem>
-            {session.user.isAdmin && (
+            {typedSession.user.isAdmin && (
               <DropdownMenuItem asChild>
                 <Link href="/admin">Admin Dashboard</Link>
               </DropdownMenuItem>
