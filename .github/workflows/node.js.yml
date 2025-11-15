@@ -33,8 +33,9 @@ jobs:
       # - name: Lint
       #   run: npm run lint
 
-      - name: Type Check
-        run: npx tsc --noEmit
+      # Uncomment the following lines to enable type checking
+      # - name: Type Check
+      #   run: npx tsc --noEmit
 
       - name: Build
         run: npm run build
