@@ -7,25 +7,39 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
-import { useActionState, useEffect } from "react"
-import { signIn } from "@/lib/actions"
-import { loginWithSocial } from "@/lib/auth/auth-client"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { loginWithSocial, loginWithEmail } from "@/lib/auth/auth-client"
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
-  const initialState = { errorMessage: "" };
-  const [state, formAction, pending] = useActionState(signIn, initialState)
+  const router = useRouter()
+  const [pending, setPending] = useState(false)
 
-    useEffect(() => {
-    if (state.errorMessage && state.errorMessage.length) {
-      toast.error(state.errorMessage)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setPending(true)
+
+    const formData = new FormData(e.currentTarget)
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string
+
+    const result = await loginWithEmail(email, password)
+
+    if (result.errorMessage) {
+      toast.error(result.errorMessage)
+      setPending(false)
+    } else {
+      // Success - redirect to home page
+      toast.success("Signed in successfully")
+      router.push("/")
     }
-  }, [state.errorMessage])
+  }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form action={formAction} className="p-6 md:p-8">
+          <form onSubmit={handleSubmit} className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>

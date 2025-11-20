@@ -22,3 +22,59 @@ export const loginWithSocial = async (provider: string) => {
     }
   }
 };
+
+export const loginWithEmail = async (email: string, password: string) => {
+  try {
+    await authClient.signIn.email({
+      email,
+      password,
+      callbackURL: "/",
+      rememberMe: true,
+    });
+    // Success - redirect will happen via callbackURL
+    return { errorMessage: null };
+  } catch (error) {
+    if (error instanceof APIError) {
+      switch (error.status) {
+        case "UNAUTHORIZED":
+          return { errorMessage: "Invalid credentials." };
+        case "BAD_REQUEST":
+          return { errorMessage: "Invalid email." };
+        default:
+          return { errorMessage: "Something went wrong." };
+      }
+    }
+    return { errorMessage: "Something went wrong." };
+  }
+};
+
+export const signUpWithEmail = async (name: string, email: string, password: string) => {
+  try {
+    await authClient.signUp.email({
+      name,
+      email,
+      password,
+      isAdmin: false,
+      countryCode: "",
+      phoneNumber: "",
+      gender: "",
+      accountStatus: "active",
+      callbackURL: "/",
+    } as any);
+    // Success - redirect will happen via callbackURL
+    return { errorMessage: null };
+  } catch (error) {
+    if (error instanceof APIError) {
+      switch (error.status) {
+        case "UNPROCESSABLE_ENTITY":
+          return { errorMessage: "User already exists." };
+        case "BAD_REQUEST":
+          return { errorMessage: "Invalid email." };
+        default:
+          return { errorMessage: "Something went wrong." };
+      }
+    }
+    console.error(error);
+    return { errorMessage: "Something went wrong." };
+  }
+};

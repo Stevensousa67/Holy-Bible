@@ -6,25 +6,42 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { signUp } from "@/lib/actions"
-import { useActionState, useEffect } from "react"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { signUpWithEmail, loginWithSocial } from "@/lib/auth/auth-client"
 
 export function SignupForm({ className, ...props }: React.ComponentProps<"div">) {
-  const initialState = { errorMessage: "" };
-  const [state, formAction, pending] = useActionState(signUp, initialState)
+  const router = useRouter()
+  const [pending, setPending] = useState(false)
 
-  useEffect(() => {
-    if (state.errorMessage && state.errorMessage.length) {
-      toast.error(state.errorMessage)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setPending(true)
+
+    const formData = new FormData(e.currentTarget)
+    const firstName = formData.get("firstName") as string
+    const lastName = formData.get("lastName") as string
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string
+
+    const result = await signUpWithEmail(`${firstName} ${lastName}`, email, password)
+
+    if (result.errorMessage) {
+      toast.error(result.errorMessage)
+      setPending(false)
+    } else {
+      // Success - redirect to home page
+      toast.success("Account created successfully")
+      router.push("/")
     }
-  }, [state.errorMessage])
+  }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form action={formAction} className="p-6 md:p-8">
+          <form onSubmit={handleSubmit} className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome!</h1>
@@ -61,15 +78,15 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                 </span>
               </div>
               <div className="grid grid-cols-3 gap-4">
-                <Button variant="outline" type="button" className="w-full">
+                <Button variant="outline" type="button" className="w-full" onClick={() => loginWithSocial("google")}>
                   <Image src="/Google.svg" alt="Google logo" width={24} height={24} />
                   <span className="sr-only">Login with Google</span>
                 </Button>
-                <Button variant="outline" type="button" className="w-full">
+                <Button variant="outline" type="button" className="w-full" onClick={() => loginWithSocial("microsoft")}>
                   <Image src="/Microsoft.svg" alt="Microsoft logo" width={24} height={24} />
                   <span className="sr-only">Login with Microsoft</span>
                 </Button>
-                <Button variant="outline" type="button" className="w-full">
+                <Button variant="outline" type="button" className="w-full" onClick={() => loginWithSocial("x")}>
                   <Image src="/X.svg" alt="X logo" width={24} height={24} className="invert dark:invert-0" />
                   <span className="sr-only">Login with X</span>
                 </Button>
