@@ -14,10 +14,12 @@ import { loginWithSocial, loginWithEmail } from "@/lib/auth/auth-client"
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const router = useRouter()
   const [pending, setPending] = useState(false)
+  const [hasError, setHasError] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setPending(true)
+    setHasError(false)
 
     const formData = new FormData(e.currentTarget)
     const email = formData.get("email") as string
@@ -27,6 +29,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
 
     if (result.errorMessage) {
       toast.error(result.errorMessage)
+      setHasError(true)
       setPending(false)
     } else {
       // Success - redirect to home page
@@ -55,6 +58,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                   placeholder="johndoe@example.com"
                   name="email"
                   required
+                  aria-invalid={hasError}
+                  onChange={() => setHasError(false)}
                 />
               </div>
               <div className="grid gap-3">
@@ -64,7 +69,14 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                     Forgot your password?
                   </Link>
                 </div>
-                <Input id="password" type="password" name="password" required />
+                <Input 
+                  id="password" 
+                  type="password" 
+                  name="password" 
+                  required 
+                  aria-invalid={hasError}
+                  onChange={() => setHasError(false)}
+                />
               </div>
               <Button type="submit" className="w-full" disabled={pending} aria-disabled={pending}>
                 Login
