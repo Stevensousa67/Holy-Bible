@@ -83,7 +83,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
             </div>
           </form>
           <div className="bg-muted relative hidden md:block">
-            <Image src="/SS.jpeg" alt="Steven Sousa Logo" width={1920} height={1080} className="absolute inset-0 w-full h-full object-fill" />
+            <Image src="/Logo.jpg" alt="Steven Sousa Logo" width={1920} height={1080} className="absolute inset-0 w-full h-full object-fill" />
           </div>
         </CardContent>
       </Card>
