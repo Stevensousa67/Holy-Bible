@@ -39,6 +39,31 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_REDIRECT_URI: ${{ secrets.SPOTIFY_REDIRECT_URI }}
+
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
+          RESEND_TO_EMAIL: ${{ secrets.RESEND_TO_EMAIL }}
+          RESEND_SUBJECT: ${{ secrets.RESEND_SUBJECT }}
+
+          GHub_URL: ${{ secrets.GHub_URL }}
+          LinkedIn_URL: ${{ secrets.LinkedIn_URL }}
+          Personal_Website_URL: ${{ secrets.Personal_Website_URL }}
+          Discord_Profile: ${{ secrets.Discord_Profile }}
+          Youtube_URL: ${{ secrets.Youtube_URL }}
+
+          PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
+
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+          BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
+          BETTER_AUTH_TELEMERTY: ${{ secrets.BETTER_AUTH_TELEMERTY }}
 
       - name: Test
         run: npm test -- --coverage
