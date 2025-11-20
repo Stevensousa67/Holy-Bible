@@ -25,12 +25,19 @@ export const loginWithSocial = async (provider: string) => {
 
 export const loginWithEmail = async (email: string, password: string) => {
   try {
-    await authClient.signIn.email({
+    const result = await authClient.signIn.email({
       email,
       password,
       callbackURL: "/",
       rememberMe: true,
     });
+    
+    // Verify that sign-in was actually successful by checking the session
+    const session = await authClient.getSession();
+    if (!session?.data?.session) {
+      return { errorMessage: "Invalid credentials." };
+    }
+    
     // Success - redirect will happen via callbackURL
     return { errorMessage: null };
   } catch (error) {
@@ -44,7 +51,9 @@ export const loginWithEmail = async (email: string, password: string) => {
           return { errorMessage: "Something went wrong." };
       }
     }
-    return { errorMessage: "Something went wrong." };
+    // Catch any other errors that might not be APIError instances
+    console.error("Login error:", error);
+    return { errorMessage: "Invalid credentials." };
   }
 };
 
