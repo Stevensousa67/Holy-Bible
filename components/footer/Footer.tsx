@@ -6,7 +6,7 @@ import Copyright from './Copyright';
 
 export default function Footer() {
   return (
-    <footer className="relative max-w-5xl mx-auto w-full mb-3 flex flex-col rounded-2xl px-8 saturate-100 backdrop-blur-[10px] overflow-hidden bg-gradient-to-t from-white/30 via-white/10 to-white/0 dark:from-black/30 dark:via-black/10 dark:to-black/0 shadow-xs">
+    <footer className="relative max-w-5xl mx-auto w-full mb-3 flex flex-col rounded-2xl px-8 saturate-100 backdrop-blur-[10px] overflow-hidden bg-linear-to-t from-white/30 via-white/10 to-white/0 dark:from-black/30 dark:via-black/10 dark:to-black/0 shadow-xs">
       {/* Main content container */}
       <div className="relative z-10 flex flex-col md:flex-row items-center md:justify-between w-full md:gap-0">
 
