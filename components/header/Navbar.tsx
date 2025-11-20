@@ -54,7 +54,7 @@ export default function Navbar() {
 
                 <div className="flex items-center gap-4">
                     <NavbarLinks className="hidden md:flex gap-8 text-md" />
-                    <div className="hidden md:block h-6 w-px bg-gray-400/50 flex-shrink-0" />
+                    <div className="hidden md:block h-6 w-px bg-gray-400/50 shrink-0" />
                     <ModeToggle />
                     <ProfileToggle />
                     <button className="md:hidden text-foreground" onClick={() => (isOpen ? closeMenu() : setIsOpen(true))} aria-label={isOpen ? 'Close menu' : 'Open menu'} aria-expanded={isOpen}>
