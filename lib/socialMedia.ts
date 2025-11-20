@@ -8,7 +8,7 @@ interface socialMedia {
 export const socialMedia: socialMedia[] = [
     {
         name: "GitHub",
-        url: `${process.env.GitHub_URL}`,
+        url: `${process.env.GHub_URL}`,
         icon: "/github.svg",
         isBlack: true,
     },
