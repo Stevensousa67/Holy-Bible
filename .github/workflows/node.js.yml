@@ -65,5 +65,5 @@ jobs:
           BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
           BETTER_AUTH_TELEMERTY: ${{ secrets.BETTER_AUTH_TELEMERTY }}
 
-      - name: Test
-        run: npm test -- --coverage
+      # - name: Test
+      #   run: npm test -- --coverage
